@@ -2,16 +2,21 @@
     !************************  长安大学 聂启阳  ************************
     !************************    2019.01.06    ************************
     !******************************************************************
+    MODULE HeWangMiDu
+    REAL(4),allocatable :: HWMiDu(:)
+    ENDMODULE HeWangMiDu
 
     program MiDuQuXian
+    
+    USE HeWangMiDu
     Implicit None
 
-    INTEGER hang,lie,i,j,k
+    INTEGER hang,lie,i,j,k,N
     INTEGER(8) LiuYuN,GC
     REAL(8) MianJi
     REAL(4) GCC
     REAL(4),allocatable :: DEM(:,:),PoChang(:,:)
-    REAL(4),allocatable :: HWMiDu(:),HeChang(:)
+    REAL(4),allocatable :: HeChang(:)
     INTEGER,allocatable :: ACC(:,:),DIR(:,:),YuZhi(:)
     CHARACTER DATE
 
@@ -31,8 +36,10 @@
         READ (222,*)
         READ (333,*)
     ENDDO
+    
+    N=700  !等距离点数
 
-    allocate (DEM(hang,lie),DIR(hang,lie),ACC(hang,lie),PoChang(hang,lie),YuZHi(50),HeChang(50),HWMiDu(50))
+    allocate (DEM(hang,lie),DIR(hang,lie),ACC(hang,lie),PoChang(hang,lie),YuZHi(N),HeChang(N),HWMiDu(N))
 
     DO I=1,hang
         READ (111,*) (DEM(i,j),J=1,lie)
@@ -51,22 +58,21 @@
 
     !MianJi=LiuYuN*GC**2        !流域面积
 
-    YuZhi(1:5)=(/10,20,40,60,80/)
-    YuZhi(6:45)=(/(i,i=100,4000,100)/)
-    YuZhi(46:50)=(/(i,i=5000,9000,1000)/)
+    
+    YuZhi=(/(i,i=10,7000,10)/)
 
     HeChang=0.0
     DO j=1,lie
         DO i=1,hang
-            DO k=1,50
+            DO k=1,N
                 if(ACC(i,j)>=YuZhi(k))then
-                    if(ANY((/1,4,16,64/)==DIR(i,j)))then                   
+                    if(ANY((/1,4,16,64/)==DIR(i,j)))then
                         HeChang(k)=HeChang(k)+1.0
                     else
                         HeChang(k)=HeChang(k)+sqrt(2.0)
-                    endif                   
+                    endif
                 else
-                    exit       
+                    exit
                 endif
             ENDDO
         ENDDO
@@ -75,13 +81,17 @@
     GCC=real(GC)/1000.0
     HwMiDu=real(HeChang)/real(LiuYuN*GCC)  !河网密度单位为：Km/(Km^2)
 
-    DO i=1,50
-        write(444,*)YuZhi(i),',',HWMiDu(i)
-    ENDDO
+    !DO i=1,N
+    !    write(444,*)YuZhi(i),',',HWMiDu(i)
+    !ENDDO
+    
+    
+    call JunZhiBianDian(N)
+    
     write(*,*)'结束'
     close(111)
     close(222)
     close(333)
     close(444)
     DEALLOCATE (DEM,DIR,ACC,PoChang,YuZhi,HeChang,HWMiDu)
-    end program 
+    end program
