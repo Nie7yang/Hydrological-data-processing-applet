@@ -1,4 +1,4 @@
-Ôªø    subroutine JunZhiBianDian(N)
+    subroutine JunZhiBianDian(N)
     use HeWangMiDu
     implicit none
 
@@ -6,8 +6,8 @@
     REAL(8) JunZhi,S,Xi1,Xi2,XiZ,XiY,Si1,Si2
     REAL(8) Si(N-1)
 
-    OPEN (123,FILE='ÂùáÂÄºÂèòÁÇπÊ£ÄÊü•.csv')
-    
+    OPEN (123,FILE='æ˘÷µ±‰µ„ºÏ≤È.csv')
+    S=0.0
     JunZhi=SUM(HWMiDu)/REAl(N)
     DO i=1,N
         S=S+(HWMiDu(i)-JunZhi)**2

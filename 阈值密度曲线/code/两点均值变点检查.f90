@@ -6,9 +6,10 @@
     REAL(8) JunZhi,S,Xi1,Xi2,Xi3,Si1,Si2,Si3
     REAL(8),ALLOCATABLE:: Si(:,:)
 
-    OPEN (123,FILE='ÂùáÂÄºÂèòÁÇπÊ£ÄÊü•.txt')
+    OPEN (123,FILE='æ˘÷µ±‰µ„ºÏ≤È.txt')
+    OPEN (123,FILE='æ˘÷µ±‰µ„ºÏ≤ÈArcGIS.txt')
     
-    ALLOCATE(Si(2:N-1,3:N))
+    ALLOCATE(Si(2:N-1,3:N)) 
     JunZhi=SUM(HWMiDu)/REAl(N)
     DO i=1,N
         S=S+(HWMiDu(i)-JunZhi)**2
@@ -35,18 +36,18 @@
         ENDDO       
     ENDDO
 
-    !DO K=2,N-1
-    !    DO G=K+1,N
-    !        write(123,*)K,',',G,',',Si(K,G)
-    !    ENDDO
-    !ENDDO
+    DO K=2,N-1
+        DO  G=K+1,N
+            write(123,'(F14.4)') Si(K,G)
+        ENDDO
+    ENDDO
     
     do K = 2,N-1
-        write(123,'(<N-2>F14.4)') (Si(K,G), G = 3,N)
+        write(456,'(<N-2>F14.4)') (Si(K,G), G = 3,N)
     enddo
     
     DEALLOCATE(Si)
     close(123)
-    
+    close(456)
     return
     end subroutine JunZhiBianDian_2

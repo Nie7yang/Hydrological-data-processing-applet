@@ -23,7 +23,7 @@
     OPEN (111,FILE='dem.txt')
     OPEN (222,FILE='dir.txt')
     OPEN (333,FILE='acc.txt')
-    OPEN (444,FILE='输出.csv')
+    !OPEN (444,FILE='输出.csv')
 
     READ (111,*) DATE,lie	!读取总列数
     READ (111,*) DATE,hang	!读取总行数
@@ -59,7 +59,7 @@
     !MianJi=LiuYuN*GC**2        !流域面积
 
     
-    YuZhi=(/(i,i=10,7000,10)/)
+    YuZhi=(/(i,i=210,7200,10)/)
 
     HeChang=0.0
     DO j=1,lie
@@ -86,12 +86,12 @@
     !ENDDO
     
     
-    call JunZhiBianDian(N)
+    call JunZhiBianDian_2(N)
     
     write(*,*)'结束'
     close(111)
     close(222)
     close(333)
-    close(444)
+    !close(444)
     DEALLOCATE (DEM,DIR,ACC,PoChang,YuZhi,HeChang,HWMiDu)
     end program
